@@ -1,0 +1,9 @@
+{
+    "resource": "/temperature",
+    
+    "httpMethod": "GET",
+
+    "queryStringParameters": {
+        "city": "istanbul"
+    }
+}
