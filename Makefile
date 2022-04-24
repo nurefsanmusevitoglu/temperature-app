@@ -1,4 +1,4 @@
-mkSOURCE_PATH := $(PWD)/cmd/main.go
+SOURCE_PATH := $(PWD)/cmd/main.go
 BIN_PATH := $(PWD)/bin/main
 EVENT_FILE := event.json
 

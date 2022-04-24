@@ -19,4 +19,4 @@ Resources:
             Method: get
       Environment:
         Variables:
-          apikey: 
+          apikey: apikey

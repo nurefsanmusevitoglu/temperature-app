@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -32,6 +31,8 @@ func handleRequest(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRes
 }
 
 func getTemperature(req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	var temp weather.Temperature
+
 	city := req.QueryStringParameters["city"]
 	if city == "" {
 		log.Println("city is missing...")
@@ -43,15 +44,15 @@ func getTemperature(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRe
 		return customerror.New(http.StatusBadRequest), nil
 	}
 
-	temp, err := weather.Temperature(city)
-	if err != nil {
+	temp.GetTemperature(city)
+	if temp.IsEmpty() {
 		return customerror.New(http.StatusBadRequest), nil
 	}
 
-	response, _ := json.Marshal(
-		map[string]string{
-			"temperature": fmt.Sprintf("%.2f", temp),
-		})
+	response, err := json.Marshal(temp)
+	if err != nil {
+		log.Println("temp info cannot be marshalled...")
+	}
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
